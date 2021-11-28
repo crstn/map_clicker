@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/map_clicker" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
