@@ -38,19 +38,18 @@ from qgis.gui import QgsMapTool
 class SendPointToolCoordinates(QgsMapTool):
     """ Catches the coordinates from a click on a layer and displays them in a UI element
     """
-    def __init__(self, canvas, layer, window):
+    def __init__(self, canvas, window):
         """ Constructor.
         """
         QgsMapTool.__init__(self, canvas)
         self.canvas = canvas
-        self.layer = layer
         self.window = window # where we'll show the coordinates
         self.setCursor(Qt.CrossCursor)
 
     """ Called when the mouse click is released on the canvas.
     """
     def canvasReleaseEvent(self, event):
-        point = self.toLayerCoordinates(self.layer, event.pos())
+        point = self.toMapCoordinates(event.pos())
         self.window.label.setText(str(point.x())+", "+str(point.y()))
 
 
@@ -134,18 +133,6 @@ class MapClicker:
                 action)
             self.iface.removeToolBarIcon(action)
 
-    # Activates our pointTool; called when when the
-    # cooresponding button in the GUI is clicked
-    # def activate_display_point(self):
-    #     layer, canvas = self.iface.activeLayer(), self.iface.mapCanvas()
-    #
-    #     send_point_tool_coordinates = SendPointToolCoordinates(
-    #         canvas,
-    #         layer,
-    #         self.dlg
-    #     )
-    #     canvas.setMapTool(send_point_tool_coordinates)
-
 
 
     def run(self):
@@ -162,7 +149,6 @@ class MapClicker:
             # Create an instance of our QgsMapTool-derived class ...
             send_point_tool_coordinates = SendPointToolCoordinates(
                 canvas,
-                layer,
                 self.dlg
             )
 
